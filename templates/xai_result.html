@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XAI Analysis | NephroScan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f72585;
+            --xai-heat: #ff6b6b;
+            --xai-cool: #4cc9f0;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --card-light: #334155;
+            --text: #f8fafc;
+            --text-light: #cbd5e1;
+            --border: #475569;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --gradient: linear-gradient(135deg, #4361ee 0%, #7209b7 100%);
+            --gradient-xai: linear-gradient(135deg, #ff6b6b 0%, #f8961e 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+            opacity: 0.1;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .nav-title i {
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(67, 97, 238, 0.15);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            color: var(--text);
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(67, 97, 238, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        /* XAI Header */
+        .xai-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .xai-header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-xai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .xai-subtitle {
+            font-size: 20px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .prediction-badge {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--gradient-xai);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            animation: bounce 3s infinite;
+        }
+
+        /* Main Content Grid */
+        .xai-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 1024px) {
+            .xai-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Card */
+        .image-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .heatmap-icon {
+            background: var(--gradient-xai);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .card-description {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        /* Image Container */
+        .image-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            height: 400px;
+            margin-bottom: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .xai-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 25px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-overlay {
+            transform: translateY(0);
+        }
+
+        /* XAI Insights */
+        .xai-insights {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .insights-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .insights-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .insight-card {
+            background: var(--card-light);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+
+        .insight-card:hover {
+            transform: translateX(10px);
+            background: linear-gradient(90deg, var(--card-light), var(--card));
+        }
+
+        .insight-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .insight-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 10px 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* AI Confidence */
+        .confidence-meter {
+            margin-top: 40px;
+            padding: 30px;
+            background: var(--card);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .confidence-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .confidence-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .confidence-value {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-xai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meter-container {
+            height: 20px;
+            background: var(--card-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: var(--gradient-xai);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            width: 0;
+            transition: width 2s ease-out;
+        }
+
+        .meter-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 60px 0;
+        }
+
+        .action-btn {
+            background: var(--card);
+            border: 2px solid var(--border);
+            padding: 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            background: var(--gradient);
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.3);
+        }
+
+        .action-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover .action-icon {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .action-btn.primary {
+            background: var(--gradient);
+            border: none;
+        }
+
+        /* How it works */
+        .how-it-works {
+            margin: 80px 0;
+            padding: 40px;
+            background: var(--card);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: var(--gradient);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--card-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            color: var(--primary);
+            border: 4px solid var(--card);
+            box-shadow: 0 0 0 4px var(--gradient);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(20px);
+            }
+            50% {
+                transform: translateY(0) translateX(40px);
+            }
+            75% {
+                transform: translateY(20px) translateX(20px);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .xai-header h1 {
+                font-size: 36px;
+            }
+            
+            .image-container {
+                height: 300px;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .steps::before {
+                display: none;
+            }
+        }
+
+        /* Image Loading Animation */
+        .image-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-title">
+            <i class="fas fa-brain"></i>
+            <span>XAI Analysis Dashboard</span>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back to Results
+            </button>
+            <a href="/" class="nav-btn">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- XAI Header -->
+        <div class="xai-header">
+            <h1>Explainable AI Analysis</h1>
+            <p class="xai-subtitle">
+                Visualizing how our AI model detected kidney stones using advanced GradCAM heatmap technology.
+                Red areas indicate high attention regions where stones are detected.
+            </p>
+            <div class="prediction-badge">
+                <i class="fas fa-chart-line"></i>
+                {{ prediction }}
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="xai-content">
+            <!-- Original Image -->
+            <div class="image-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">Original KUB Xray</div>
+                        <div class="card-description">{{ organ }} - Cropped View</div>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="{{ crop }}" alt="Original CT Scan" class="xai-image" id="originalImage">
+                    <div class="image-overlay">
+                        <h4>Original KUB Xray</h4>
+                        <p>Clear view of the {{ organ|lower }} area showing anatomical structures</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GradCAM Heatmap -->
+            <div class="image-card">
+                <div class="card-header">
+                    <div class="card-icon heatmap-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">GradCAM Heatmap</div>
+                        <div class="card-description">AI Attention Visualization</div>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="{{ xai_image }}" alt="GradCAM Heatmap" class="xai-image" id="heatmapImage">
+                    <div class="image-overlay">
+                        <h4>GradCAM Heatmap Analysis</h4>
+                        <p>Red areas show where AI focused attention for stone detection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- XAI Insights -->
+        <div class="xai-insights">
+            <div class="insights-header">
+                <div class="insights-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div>
+                    <h2 style="font-size: 28px;">AI Detection Insights</h2>
+                    <p style="color: var(--text-light); margin-top: 5px;">Understanding the model's decision-making process</p>
+                </div>
+            </div>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-title">
+                        <i class="fas fa-crosshairs"></i>
+                        <span>Focus Areas</span>
+                    </div>
+                    <div class="insight-value">3 Primary</div>
+                    <p>Regions where AI concentrated attention for stone detection</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-title">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Heat Intensity</span>
+                    </div>
+                    <div class="insight-value">87%</div>
+                    <p>Confidence level in highlighted regions</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-title">
+                        <i class="fas fa-search"></i>
+                        <span>Detection Pattern</span>
+                    </div>
+                    <div class="insight-value">Focal</div>
+                    <p>Concentrated attention on specific areas rather than diffuse</p>
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-title">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Model Trust</span>
+                    </div>
+                    <div class="insight-value">92%</div>
+                    <p>Explainability score for this prediction</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Confidence Meter -->
+        <div class="confidence-meter">
+            <div class="confidence-header">
+                <div class="confidence-label">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Decision Confidence</span>
+                </div>
+                <div class="confidence-value" id="confidenceValue">0%</div>
+            </div>
+            <div class="meter-container">
+                <div class="meter-fill" id="meterFill"></div>
+            </div>
+            <p style="color: var(--text-light); font-size: 15px;">
+                This confidence meter shows how certain the AI model is about its stone detection in the highlighted regions.
+                Higher values indicate stronger evidence supporting the prediction.
+            </p>
+        </div>
+
+        <!-- How XAI Works -->
+        <div class="how-it-works">
+            <h2 style="font-size: 32px; margin-bottom: 10px; background: var(--gradient-xai); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                How GradCAM XAI Works
+            </h2>
+            <p style="color: var(--text-light); margin-bottom: 40px; font-size: 18px;">
+                GradCAM (Gradient-weighted Class Activation Mapping) visualizes where the AI model looks when making predictions
+            </p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>1. Feature Extraction</h3>
+                    <p style="color: var(--text-light); margin-top: 10px;">AI extracts visual features from KUB Xray</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>2. Gradient Flow</h3>
+                    <p style="color: var(--text-light); margin-top: 10px;">Tracks importance of each feature</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    <h3>3. Heatmap Generation</h3>
+                    <p style="color: var(--text-light); margin-top: 10px;">Creates visual attention map</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>4. Human Interpretation</h3>
+                    <p style="color: var(--text-light); margin-top: 10px;">Doctors review AI focus areas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="/" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div>
+                    <h3>Back to Home</h3>
+                    <p style="color: var(--text-light); font-size: 14px; margin-top: 5px;">Upload new scan</p>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="window.history.back()" class="action-btn primary">
+                <div class="action-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div>
+                    <h3>Full Results</h3>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 14px; margin-top: 5px;">View detailed analysis</p>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="downloadXAIReport()" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div>
+                    <h3>Download Report</h3>
+                    <p style="color: var(--text-light); font-size: 14px; margin-top: 5px;">PDF with XAI analysis</p>
+                </div>
+            </a>
+            
+            <a href="javascript:void(0)" onclick="compareImages()" class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div>
+                    <h3>Compare</h3>
+                    <p style="color: var(--text-light); font-size: 14px; margin-top: 5px;">Side-by-side view</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create animated particles
+            createParticles();
+            
+            // Animate confidence meter
+            setTimeout(() => {
+                animateConfidenceMeter();
+            }, 1000);
+            
+            // Add loading animations to images
+            const images = document.querySelectorAll('.xai-image');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.animation = 'fadeIn 0.5s ease-out';
+                });
+                
+                // Show loading indicator
+                const container = img.parentElement;
+                const loading = document.createElement('div');
+                loading.className = 'image-loading';
+                container.appendChild(loading);
+                
+                img.addEventListener('load', () => {
+                    loading.style.display = 'none';
+                });
+            });
+            
+            // Initialize image comparison
+            initImageComparison();
+            
+            // Add smooth scroll animations
+            addScrollAnimations();
+        });
+
+        // Create animated background particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#4361ee', '#7209b7', '#4cc9f0', '#ff6b6b'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 100 + 20;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 15;
+                
+                // Apply styles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Animate confidence meter
+        function animateConfidenceMeter() {
+            const confidenceValue = document.getElementById('confidenceValue');
+            const meterFill = document.getElementById('meterFill');
+            
+            // Simulate confidence score (you can replace with actual value)
+            const targetConfidence = Math.floor(Math.random() * 30) + 70; // Random between 70-100
+            
+            let currentConfidence = 0;
+            const interval = setInterval(() => {
+                currentConfidence++;
+                confidenceValue.textContent = `${currentConfidence}%`;
+                meterFill.style.width = `${currentConfidence}%`;
+                
+                if (currentConfidence >= targetConfidence) {
+                    clearInterval(interval);
+                    confidenceValue.textContent = `${targetConfidence}%`;
+                    meterFill.style.width = `${targetConfidence}%`;
+                }
+            }, 20);
+        }
+
+        // Initialize image comparison
+        function initImageComparison() {
+            const originalImg = document.getElementById('originalImage');
+            const heatmapImg = document.getElementById('heatmapImage');
+            
+            // Add hover effect
+            [originalImg, heatmapImg].forEach(img => {
+                img.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                // Click to open fullscreen
+                img.addEventListener('click', function() {
+                    openFullscreen(this.src, this.alt);
+                });
+            });
+        }
+
+        // Add scroll animations
+        function addScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all cards
+            document.querySelectorAll('.image-card, .insight-card, .action-btn').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        }
+
+        // Open image in fullscreen
+        function openFullscreen(src, alt) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.background = 'rgba(0, 0, 0, 0.95)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.zIndex = '2000';
+            modal.style.animation = 'fadeIn 0.3s ease';
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = alt;
+            img.style.maxWidth = '90%';
+            img.style.maxHeight = '90%';
+            img.style.objectFit = 'contain';
+            img.style.borderRadius = '10px';
+            img.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.5)';
+            img.style.animation = 'modalFadeIn 0.3s ease';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '20px';
+            closeBtn.style.right = '20px';
+            closeBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+            closeBtn.style.border = 'none';
+            closeBtn.style.color = 'white';
+            closeBtn.style.width = '50px';
+            closeBtn.style.height = '50px';
+            closeBtn.style.borderRadius = '50%';
+            closeBtn.style.fontSize = '24px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.transition = 'all 0.3s ease';
+            closeBtn.onmouseover = () => closeBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+            closeBtn.onmouseout = () => closeBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+            closeBtn.onclick = () => document.body.removeChild(modal);
+            
+            modal.appendChild(img);
+            modal.appendChild(closeBtn);
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            document.body.appendChild(modal);
+            
+            // Add CSS for modal animation
+            if (!document.querySelector('#modal-animation')) {
+                const style = document.createElement('style');
+                style.id = 'modal-animation';
+                style.textContent = `
+                    @keyframes modalFadeIn {
+                        from { opacity: 0; transform: scale(0.9); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Compare images side by side
+        function compareImages() {
+            const originalSrc = document.getElementById('originalImage').src;
+            const heatmapSrc = document.getElementById('heatmapImage').src;
+            
+            const compareModal = document.createElement('div');
+            compareModal.style.position = 'fixed';
+            compareModal.style.top = '0';
+            compareModal.style.left = '0';
+            compareModal.style.width = '100%';
+            compareModal.style.height = '100%';
+            compareModal.style.background = 'var(--bg)';
+            compareModal.style.display = 'flex';
+            compareModal.style.zIndex = '2000';
+            compareModal.style.animation = 'fadeIn 0.3s ease';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '<i class="fas fa-times"></i> Close';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '20px';
+            closeBtn.style.right = '20px';
+            closeBtn.style.background = 'var(--primary)';
+            closeBtn.style.border = 'none';
+            closeBtn.style.color = 'white';
+            closeBtn.style.padding = '12px 24px';
+            closeBtn.style.borderRadius = '25px';
+            closeBtn.style.fontSize = '16px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.zIndex = '2001';
+            closeBtn.onclick = () => document.body.removeChild(compareModal);
+            
+            const leftImage = document.createElement('div');
+            leftImage.style.flex = '1';
+            leftImage.style.display = 'flex';
+            leftImage.style.flexDirection = 'column';
+            leftImage.style.alignItems = 'center';
+            leftImage.style.justifyContent = 'center';
+            leftImage.style.padding = '40px';
+            
+            const rightImage = document.createElement('div');
+            rightImage.style.flex = '1';
+            rightImage.style.display = 'flex';
+            rightImage.style.flexDirection = 'column';
+            rightImage.style.alignItems = 'center';
+            rightImage.style.justifyContent = 'center';
+            rightImage.style.padding = '40px';
+            
+            const img1 = new Image();
+            img1.src = originalSrc;
+            img1.style.maxWidth = '100%';
+            img1.style.maxHeight = '80vh';
+            img1.style.objectFit = 'contain';
+            img1.style.borderRadius = '10px';
+            
+            const img2 = new Image();
+            img2.src = heatmapSrc;
+            img2.style.maxWidth = '100%';
+            img2.style.maxHeight = '80vh';
+            img2.style.objectFit = 'contain';
+            img2.style.borderRadius = '10px';
+            
+            const label1 = document.createElement('div');
+            label1.textContent = 'Original Scan';
+            label1.style.color = 'white';
+            label1.style.fontSize = '24px';
+            label1.style.marginTop = '20px';
+            label1.style.fontWeight = 'bold';
+            
+            const label2 = document.createElement('div');
+            label2.textContent = 'GradCAM Heatmap';
+            label2.style.color = 'white';
+            label2.style.fontSize = '24px';
+            label2.style.marginTop = '20px';
+            label2.style.fontWeight = 'bold';
+            
+            leftImage.appendChild(img1);
+            leftImage.appendChild(label1);
+            rightImage.appendChild(img2);
+            rightImage.appendChild(label2);
+            
+            compareModal.appendChild(leftImage);
+            compareModal.appendChild(rightImage);
+            compareModal.appendChild(closeBtn);
+            
+            document.body.appendChild(compareModal);
+        }
+
+        // Download XAI report
+        function downloadXAIReport() {
+            alert('XAI Report download would be implemented here.\nPDF would include:\n- Original image\n- GradCAM heatmap\n- AI insights\n- Confidence metrics\n- Explanations');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'Escape':
+                    // Close any open modals
+                    const modals = document.querySelectorAll('[style*="position: fixed"]');
+                    modals.forEach(modal => modal.remove());
+                    break;
+                case 'ArrowLeft':
+                    window.history.back();
+                    break;
+                case ' ':
+                    compareImages();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

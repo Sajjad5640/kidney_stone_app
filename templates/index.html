@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Stone Detection System</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="logo">
+            <div class="nav-logo-icon">
+                <div class="nav-pulse-ring"></div>
+                <div class="nav-pulse-ring ring-2"></div>
+                <!-- Logo Image -->
+                <img src="/static/images/logorm.png" alt="NephroScan Logo" class="nav-logo-image">
+            </div>
+            <div class="logo-text">
+                <span class="logo-main">NephroScan</span>
+                <span class="logo-tagline">AI Stone Detection</span>
+            </div>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#detection"><i class="fas fa-search"></i> Detection</a></li>
+            <li><a href="#team"><i class="fas fa-users"></i> Our Team</a></li>
+            <li><a href="#project"><i class="fas fa-info-circle"></i> Project</a></li>
+
+        </ul>
+    </div>
+</nav>
+
+
+<!-- Hero Section -->
+<section class="hero-section" id="home">
+    <div class="hero-container">
+        <!-- Animated Background Elements -->
+        <div class="medical-animations">
+            <!-- Pulse waves -->
+            <div class="pulse-wave pulse-1"></div>
+            <div class="pulse-wave pulse-2"></div>
+            <div class="pulse-wave pulse-3"></div>
+            
+            <!-- Floating medical icons -->
+            <div class="floating-icon icon-1">
+                <i class="fas fa-kidney"></i>
+            </div>
+            <div class="floating-icon icon-2">
+                <i class="fas fa-stethoscope"></i>
+            </div>
+            <div class="floating-icon icon-3">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="floating-icon icon-4">
+                <i class="fas fa-microscope"></i>
+            </div>
+            
+            <!-- Scanning line animation -->
+            <div class="scan-line"></div>
+            
+            <!-- Data points -->
+            <div class="data-point point-1"></div>
+            <div class="data-point point-2"></div>
+            <div class="data-point point-3"></div>
+            <div class="data-point point-4"></div>
+            <div class="data-point point-5"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-text">
+                    <i class="fas fa-bolt"></i> AI-Powered Diagnosis
+                </span>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="title-line-1">Advanced</span>
+                <span class="title-line-2">
+                    <span class="highlight-word">Kidney</span>
+                    <span class="highlight-word">Ureter</span>
+                    <span class="highlight-word">Bladder</span>
+                </span>
+                <span class="title-line-3">Stone Detection System</span>
+            </h1>
+            
+            <p class="hero-description">
+                Our cutting-edge deep learning platform revolutionizes urinary stone diagnosis with 
+                <span class="highlight-text">95.7% accuracy</span> in detecting and classifying stones. 
+                Experience hospital-grade analysis from anywhere, anytime.
+            </p>
+            
+            <div class="hero-features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                        <div class="icon-orb"></div>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Deep Learning AI</h3>
+                        <p>CNN-based algorithms trained on 50,000+ medical images</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                        <div class="icon-orb"></div>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Real-time Analysis</h3>
+                        <p>Get results in under 3 seconds with detailed report</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="icon-orb"></div>
+                    </div>
+                    <div class="feature-content">
+                        <h3>HIPAA Compliant</h3>
+                        <p>Secure, encrypted processing of medical data</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-cta">
+                <a href="#detection" class="cta-button primary">
+                    <i class="fas fa-upload"></i>
+                    <span>Upload Scan Now</span>
+                    <div class="button-shine"></div>
+                </a>
+                <a href="#demo" class="cta-button secondary">
+                    <i class="fas fa-play-circle"></i>
+                    <span>See How It Works</span>
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number" data-target="95.7">0</div>
+                    <div class="stat-label">Detection Accuracy</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" data-target="2.8">0</div>
+                    <div class="stat-label">Avg. Analysis Time (s)</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" data-target="50000">0</div>
+                    <div class="stat-label">+ Training Images</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">/7 Support</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-visualization">
+            <div class="scan-visualizer">
+                <!-- Animated CT Scan Display -->
+                <div class="scan-container">
+                    <div class="scan-image">
+                        <div class="scan-overlay"></div>
+                        <div class="scan-grid"></div>
+                        <div class="detection-points">
+                            <div class="detection-point stone-1">
+                                <div class="point-pulse"></div>
+                                <div class="point-label">Stone Detected</div>
+                            </div>
+                            <div class="detection-point stone-2">
+                                <div class="point-pulse"></div>
+                                <div class="point-label">5.2mm</div>
+                            </div>
+                            <div class="detection-point stone-3">
+                                <div class="point-pulse"></div>
+                                <div class="point-label">Ureter</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-info">
+                        <div class="scan-progress">
+                            <div class="progress-label">AI Analysis Progress</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Kidney: Clear</span>
+                            </div>
+                            <div class="result-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Ureter: Stone Detected</span>
+                            </div>
+                            <div class="result-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Bladder: Clear</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating device mockup -->
+                <div class="device-mockup">
+                    <div class="device-screen">
+                        <div class="screen-content">
+                            <div class="waveform">
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Detection Section -->
+        <section class="detection-section" id="detection">
+            <h2 class="section-title"><i class="fas fa-search"></i> Stone Detection</h2>
+            <p style="margin-bottom: 30px; color: var(--gray); max-width: 800px;">Upload a CT scan, ultrasound, or X-ray image of the kidney, ureter, or bladder area. Our AI model will analyze the image and provide detection results with confidence scores.</p>
+            
+            <div class="detection-form">
+                <form action="/predict" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="file-input-wrapper">
+                        <input type="file" name="file" id="fileInput" accept="image/*" required>
+                        <label for="fileInput" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Upload Medical Image</h3>
+                            <p>CT Scan, Ultrasound, or X-ray image (JPG, PNG, DICOM)</p>
+                            <p style="margin-top: 10px; font-size: 0.8rem;">Click or drag and drop</p>
+                        </label>
+                    </div>
+                    
+                    <div id="fileName" style="margin-bottom: 20px; color: var(--primary); font-weight: 600;"></div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-microscope"></i> Analyze Image
+                    </button>
+                </form>
+            </div>
+            
+            <div style="margin-top: 40px; padding: 20px; background-color: #f0f7ff; border-radius: 12px;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px;"><i class="fas fa-info-circle"></i> How It Works</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="width: 50px; height: 50px; background-color: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: bold;">1</div>
+                        <h4>Upload Image</h4>
+                        <p style="font-size: 0.9rem;">Upload a medical image in supported format</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 50px; height: 50px; background-color: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: bold;">2</div>
+                        <h4>AI Analysis</h4>
+                        <p style="font-size: 0.9rem;">Our deep learning model analyzes the image</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 50px; height: 50px; background-color: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-weight: bold;">3</div>
+                        <h4>Get Results</h4>
+                        <p style="font-size: 0.9rem;">Receive detailed detection results</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+<section class="team-section" id="team">
+    <div class="section-header">
+        <h2 class="section-title">
+            <span class="title-icon">
+                <i class="fas fa-users"></i>
+                <div class="icon-ring"></div>
+            </span>
+            Our Dedicated Team
+        </h2>
+        <p class="section-subtitle">Meet the brilliant minds behind NephroScan's revolutionary technology</p>
+    </div>
+    
+    <div class="team-hierarchy">
+        <!-- Professors Section -->
+        <div class="team-level professors">
+            <div class="level-header">
+                <h3><i class="fas fa-graduation-cap"></i> Advisory Board & Professors</h3>
+                <p>Guiding our research with decades of academic excellence</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member professor-card">
+                    <div class="member-photo-container">
+                        <img src="{{ url_for('static', filename='images/enamulsir.jpg') }}" 
+                             alt="Prof. Dr. Ahmed Rahman" 
+                             class="member-photo">
+                        <div class="photo-frame"></div>
+                        <div class="member-badge">
+                            <i class="fas fa-award"></i>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Dr.Muhammad Enamul Hoque Chowdhury</h3>
+                        <p class="member-role">Electrical Engineering, College of Engineering, Qatar University, Doha, Qatar</p>
+                        <p class="member-desc">Nine patents, 3 edited books, 14 book chapters, 225+ peer-reviewed journal publications, and 30+ conference articles</p>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Biomedical Instrumentation and Signal Processing</span>
+                            <span class="expertise-tag">Image Processing and Computer Vision</span>
+                            <span class="expertise-tag">Wireless Body Sensors</span>
+                            <span class="expertise-tag">Artefact Correction for Simultaneous EEG-fMRI</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member professor-card">
+                    <div class="member-photo-container">
+                        <img src="{{ url_for('static', filename='images/jahid.png') }}"  
+                             alt="Prof. Dr. Sophia Chen" 
+                             class="member-photo">
+                        <div class="photo-frame"></div>
+                        <div class="member-badge">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Dr. Md Zahid Hasan</h3>
+                        <p class="member-role">Computer Science and Engineering, Daffodil International University</p>
+                        <p class="member-desc">40+ conference papers including 8+ book chapters, and 50+ journal publications</p>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Health Informatics</span>
+                            <span class="expertise-tag">Computer Vision</span>
+                            <span class="expertise-tag">Smart Agricultural System</span>
+                            <span class="expertise-tag">Decision Science</span>
+                            <span class="expertise-tag">Smart Web and Apps Development</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member professor-card">
+                    <div class="member-photo-container">
+                        <img src="{{ url_for('static', filename='images/bijoy.jpg') }}"  
+                             alt="Prof. Dr. Robert Miller" 
+                             class="member-photo">
+                        <div class="photo-frame"></div>
+                        <div class="member-badge">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Hasan Imam Bijoy</h3>
+                        <p class="member-role">Computer Science and Engineering, Daffodil International University</p>
+                        <p class="member-desc"> 30+ conference papers including 8+ book chapters, and 10+ journal publications</p>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Health Informatics</span>
+                            <span class="expertise-tag">Computer Vision</span>
+                            <span class="expertise-tag">Smart Agricultural System</span>
+                            <span class="expertise-tag">Decision Science</span>
+                            <span class="expertise-tag">Smart Web and Apps Development</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Medical Specialists Section -->
+        <div class="team-level specialists">
+            <div class="level-header">
+                <h3><i class="fas fa-user-md"></i> Medical Specialists</h3>
+                <p>Bringing clinical expertise to our diagnostic platform</p>
+            </div>
+            <!-- Option: 2 Radiologists + 1 Nephrologist -->
+
+    <div class="team-grid">
+        <!-- Radiologist 1 -->
+        <div class="team-member specialist-card">
+            <div class="member-photo-container">
+                <img src="{{ url_for('static', filename='images/sultana.jpg') }}"   
+                     alt="Dr. Sarah Johnson" 
+                     class="member-photo">
+                <div class="photo-frame"></div>
+                <div class="member-badge">
+                    <i class="fas fa-x-ray"></i>
+                </div>
+            </div>
+            <div class="member-info">
+                <h3 class="member-name">Dr. Sultana Amena Ferdoucy</h3>
+                <p class="member-role">Lead Radiologist, Associate Professor</p>
+                <p class="member-desc">Dr. MR Khan Shishu Hospital & Institute of Child Health</p>
+                <div class="member-expertise">
+                    <span class="expertise-tag">CT Scan</span>
+                    <span class="expertise-tag">Ultrasound</span>
+                    <span class="expertise-tag">MRI</span>
+                </div>
+                <div class="member-stats">
+                    <div class="stat">
+                        <i class="fas fa-chart-line"></i>
+                        <span>12,000+ scans analyzed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Radiologist 2 -->
+        <div class="team-member specialist-card">
+            <div class="member-photo-container">
+                <img src="{{ url_for('static', filename='images/tahmina.png') }}"   
+                     alt="Dr. Robert Kim" 
+                     class="member-photo">
+                <div class="photo-frame"></div>
+                <div class="member-badge">
+                    <i class="fas fa-magnet"></i>
+                </div>
+            </div>
+            <div class="member-info">
+                <h3 class="member-name">Dr. Tahmina Islam</h3>
+                <p class="member-role">Senior Radiologist, Associate Professor</p>
+                <p class="member-desc">National Institute of Kidney Diseases & Urology</p>
+                <div class="member-expertise">
+                    <span class="expertise-tag">Interventional</span>
+                    <span class="expertise-tag">Biopsy</span>
+                    <span class="expertise-tag">Guided Procedures</span>
+                </div>
+                <div class="member-stats">
+                    <div class="stat">
+                        <i class="fas fa-procedures"></i>
+                        <span>2,000+ guided procedures</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nephrologist -->
+        <div class="team-member specialist-card">
+            <div class="member-photo-container">
+                <img src="{{ url_for('static', filename='images/khokon.jpg') }}"  
+                     class="member-photo">
+                <div class="photo-frame"></div>
+                <div class="member-badge">
+                    <i class="fas fa-kidneys"></i>
+                </div>
+            </div>
+            <div class="member-info">
+                <h3 class="member-name">Dr. Shekh Moinul Khokon</h3>
+                <p class="member-role">Chief Nephrologist</p>
+                <p class="member-desc">Human Aid Research Lab and Hospital</p>
+                <div class="member-expertise">
+                    <span class="expertise-tag">CKD</span>
+                    <span class="expertise-tag">Dialysis</span>
+                    <span class="expertise-tag">Transplant</span>
+                </div>
+                <div class="member-stats">
+                    <div class="stat">
+                        <i class="fas fa-user-injured"></i>
+                        <span>8,000+ patients treated</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <!-- Thesis Students Section -->
+        <div class="team-level students">
+            <div class="level-header">
+                <h3><i class="fas fa-user-graduate"></i> Research & Development</h3>
+                <p>Young innovators driving our technical advancement</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member student-card">
+                    <div class="member-photo-container">
+                        <img src="{{ url_for('static', filename='images/sajjad.png') }}" 
+                             alt="Elena Rodriguez" 
+                             class="member-photo">
+                        <div class="photo-frame"></div>
+                        <div class="member-badge">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Md. Sajjad Mojumder Anik</h3>
+                        <p class="member-role">BSc. in Computer Science and Engineering</p>
+                        <p class="member-desc">Specializing in computer vision for medical image analysis</p>
+                        <div class="member-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            <span>Thesis: 100% complete</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member student-card">
+                    <div class="member-photo-container">
+                        <img src="{{ url_for('static', filename='images/jerin.jpg') }}" 
+                             alt="David Park" 
+                             class="member-photo">
+                        <div class="photo-frame"></div>
+                        <div class="member-badge">
+                            <i class="fas fa-code"></i>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Sabiba Israt Zerin</h3>
+                        <p class="member-role">BSc. in Computer Science and Engineering</p>
+                        <p class="member-desc">Full-stack development for medical imaging applications</p>
+                        <div class="member-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            <span>Thesis: 100% complete</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Team Stats -->
+    <div class="team-stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number" data-target="8">0</div>
+                <div class="stat-label">Team Members</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="75">0</div>
+                <div class="stat-label">+ Years Combined Experience</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="200">0</div>
+                <div class="stat-label">+ Research Papers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">+ Ongoing Projects</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Project Information -->
+        <section class="project-info" id="project">
+            <h2 class="section-title"><i class="fas fa-project-diagram"></i> Project Overview</h2>
+            <p style="margin-bottom: 30px; color: var(--gray); max-width: 800px;">Our Kidney Stone Detection System represents a breakthrough in medical diagnostics, leveraging artificial intelligence to improve accuracy and efficiency in detecting urinary tract stones.</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                    <p>To provide accurate, accessible, and rapid kidney stone detection through AI-powered analysis, reducing diagnostic time and improving patient outcomes.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-chart-line"></i> Technology</h3>
+                    <p>Utilizes a convolutional neural network (CNN) trained on thousands of annotated medical images with 95%+ accuracy in stone detection.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-heartbeat"></i> Clinical Impact</h3>
+                    <p>Reduces diagnostic time from hours to seconds, enables early detection of stones, and assists in treatment planning for urologists.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-handshake"></i> Collaborations</h3>
+                    <p>Working with leading hospitals and research institutions to validate and improve our detection algorithms across diverse patient populations.</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; background-color: #f0f7ff; padding: 25px; border-radius: 12px;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px;"><i class="fas fa-chart-bar"></i> System Performance</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">95.2%</div>
+                        <p style="font-size: 0.9rem;">Detection Accuracy</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">3.5s</div>
+                        <p style="font-size: 0.9rem;">Average Analysis Time</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">10k+</div>
+                        <p style="font-size: 0.9rem;">Images Processed</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);">97.8%</div>
+                        <p style="font-size: 0.9rem;">Sensitivity Rate</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <!-- Top Section -->
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring ring-2"></div>
+                        <!-- Replace with your logo image -->
+                        <img src="{{ url_for('static', filename='images/logorm.png') }}" alt="Logo" class="logo-image">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-main">NephroScan</span>
+                        <span class="logo-tagline">AI-Powered Stone Detection</span>
+                    </div>
+                </div>
+                <p class="brand-description">Revolutionizing urinary stone diagnosis with cutting-edge artificial intelligence and medical expertise.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in icon-float"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Twitter">
+                        <i class="fab fa-twitter icon-twirl"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="GitHub">
+                        <i class="fab fa-github icon-rotate"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="ResearchGate">
+                        <i class="fab fa-researchgate icon-bounce"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="YouTube">
+                        <i class="fab fa-youtube icon-pulse"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="link-column">
+                    <h3 class="column-title"><i class="fas fa-cube icon-float"></i> Product</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Features</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>How It Works</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>API Access</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Pricing</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Case Studies</span></a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-column">
+                    <h3 class="column-title"><i class="fas fa-book icon-float"></i> Resources</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Documentation</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Research Papers</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Blog</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Webinars</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Support</span></a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-column">
+                    <h3 class="column-title"><i class="fas fa-building icon-float"></i> Company</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>About Us</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Our Team</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Careers</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Partnerships</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Contact</span></a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-column">
+                    <h3 class="column-title"><i class="fas fa-balance-scale icon-float"></i> Legal</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Privacy Policy</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Terms of Service</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>HIPAA Compliance</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Data Security</span></a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right icon-slide"></i> <span>Cookie Policy</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Section - Stats & Recognition -->
+        <div class="footer-middle">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-bullseye icon-pulse"></i>
+                    </div>
+                    <div class="stat-number" data-target="95.7">0%</div>
+                    <div class="stat-label">Detection Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt icon-bounce"></i>
+                    </div>
+                    <div class="stat-number" data-target="2.8">0s</div>
+                    <div class="stat-label">Average Analysis Time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-hospital icon-float"></i>
+                    </div>
+                    <div class="stat-number" data-target="50">0+</div>
+                    <div class="stat-label">Hospital Partners</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-certificate icon-rotate"></i>
+                    </div>
+                    <div class="stat-number stat-fda">FDA</div>
+                    <div class="stat-label">Class II Approved</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-headset icon-twirl"></i>
+                    </div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+            
+            <div class="certifications">
+                <div class="cert-badge">
+                    <i class="fas fa-shield-alt icon-pulse"></i>
+                    <span>HIPAA Compliant</span>
+                </div>
+                <div class="cert-badge">
+                    <i class="fas fa-lock icon-bounce"></i>
+                    <span>256-bit Encryption</span>
+                </div>
+                <div class="cert-badge">
+                    <i class="fas fa-award icon-rotate"></i>
+                    <span>ISO 13485 Certified</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="footer-bottom">
+            <div class="disclaimer">
+                <div class="disclaimer-icon">
+                    <i class="fas fa-exclamation-triangle icon-wiggle"></i>
+                </div>
+                <p><strong>Medical Disclaimer:</strong> NephroScan is a decision support tool designed to assist healthcare professionals. It is not intended to replace professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider with any questions regarding medical conditions.</p>
+            </div>
+            
+            <div class="copyright-container">
+                <div class="copyright">
+                    <p>&copy; 2024 NephroScan AI Diagnostics. All rights reserved.</p>
+                    <p class="patent">Patents Pending: US 2024/0156321 A1 • EP 4125678</p>
+                </div>
+                
+                <div class="footer-cta">
+                    <a href="#" class="cta-button">
+                        <i class="fas fa-paper-plane icon-float"></i> Request a Demo
+                    </a>
+                    <a href="#" class="cta-button secondary">
+                        <i class="fas fa-file-medical icon-bounce"></i> Clinical Trial Data
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-legal">
+                <div class="legal-links">
+                    <a href="#"><i class="fas fa-user-shield icon-float"></i> Privacy Center</a> • 
+                    <a href="#"><i class="fas fa-stamp icon-rotate"></i> Imprint</a> • 
+                    <a href="#"><i class="fas fa-chart-line icon-pulse"></i> Transparency Report</a> • 
+                    <a href="#"><i class="fas fa-universal-access icon-bounce"></i> Accessibility</a> • 
+                    <a href="#"><i class="fas fa-sitemap icon-twirl"></i> Sitemap</a>
+                </div>
+                
+                <div class="language-selector">
+                    <i class="fas fa-globe icon-rotate"></i>
+                    <select aria-label="Language Selector">
+                        <option>English (US)</option>
+                        <option>Español</option>
+                        <option>Deutsch</option>
+                        <option>Français</option>
+                        <option>日本語</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animated counters for stats
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        
+        statNumbers.forEach(stat => {
+            const target = parseFloat(stat.getAttribute('data-target'));
+            const suffix = stat.textContent.includes('%') ? '%' : 
+                          stat.textContent.includes('s') ? 's' : '';
+            
+            let start = 0;
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            
+            const updateCounter = () => {
+                start += increment;
+                if (start < target) {
+                    if (suffix === '%') {
+                        stat.textContent = start.toFixed(1) + suffix;
+                    } else {
+                        stat.textContent = Math.floor(start) + suffix;
+                    }
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    stat.textContent = target + suffix;
+                }
+            };
+            
+            // Start counter when element is in view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateCounter();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(stat);
+        });
+        
+        // Interactive scan visualization
+        const scanImage = document.querySelector('.scan-image');
+        const detectionPoints = document.querySelectorAll('.detection-point');
+        
+        scanImage.addEventListener('mouseenter', () => {
+            detectionPoints.forEach(point => {
+                point.style.animation = 'stonePulse 0.5s ease-in-out';
+                setTimeout(() => {
+                    point.style.animation = 'stonePulse 2s infinite';
+                }, 500);
+            });
+        });
+        
+        // Parallax effect for medical animations
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.3;
+            
+            const floatingIcons = document.querySelectorAll('.floating-icon');
+            floatingIcons.forEach((icon, index) => {
+                icon.style.transform = `translateY(${rate * (index + 1) * 0.1}px)`;
+            });
+        });
+        
+        // Auto progress animation
+        const progressFill = document.querySelector('.progress-fill');
+        setInterval(() => {
+            progressFill.style.animation = 'none';
+            setTimeout(() => {
+                progressFill.style.animation = 'progressLoad 3s infinite alternate';
+            }, 10);
+        }, 3000);
+    });
+</script>
+
+    <script>
+         // Mobile Menu Toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (mobileMenuBtn && navLinks) {
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                // Change icon
+                const icon = mobileMenuBtn.querySelector('i');
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                // Update active class
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Scroll to target
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    });
+        
+        // Form submission feedback
+        const uploadForm = document.getElementById('uploadForm');
+        uploadForm.addEventListener('submit', function(e) {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                e.preventDefault();
+                alert('Please select a file to upload.');
+                return;
+            }
+            
+            // In a real implementation, this would show a loading indicator
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            submitBtn.disabled = true;
+            
+            // Revert after 3 seconds (in real app, this would be after the response)
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+        
+        // Highlight current section in navbar on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        // Interactive footer elements with advanced animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animated counter for stats
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    const target = parseFloat(element.getAttribute('data-target'));
+                    const suffix = element.textContent.includes('+') ? '+' : 
+                                  element.textContent.includes('s') ? 's' : 
+                                  element.textContent.includes('%') ? '%' : '';
+                    
+                    let start = 0;
+                    const duration = 2000; // 2 seconds
+                    const increment = target / (duration / 16); // 60fps
+                    
+                    const updateCounter = () => {
+                        start += increment;
+                        if (start < target) {
+                            if (suffix === '%') {
+                                element.textContent = start.toFixed(1) + suffix;
+                            } else if (suffix === 's') {
+                                element.textContent = start.toFixed(1) + suffix;
+                            } else {
+                                element.textContent = Math.floor(start) + suffix;
+                            }
+                            setTimeout(updateCounter, 16);
+                        } else {
+                            element.textContent = target + suffix;
+                        }
+                    };
+                    
+                    updateCounter();
+                    element.style.animation = 'countUp 1s ease-out forwards';
+                    observer.unobserve(element);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        statNumbers.forEach(stat => observer.observe(stat));
+        
+        // Language selector functionality
+        const langSelect = document.querySelector('.language-selector select');
+        if (langSelect) {
+            langSelect.addEventListener('change', function() {
+                // Animation when language changes
+                const globeIcon = document.querySelector('.language-selector .fa-globe');
+                globeIcon.style.animation = 'rotate 1s ease-in-out';
+                
+                setTimeout(() => {
+                    globeIcon.style.animation = '';
+                }, 1000);
+                
+                console.log('Language changed to:', this.value);
+            });
+        }
+        
+        // Add hover effect to certification badges
+        const certBadges = document.querySelectorAll('.cert-badge');
+        certBadges.forEach(badge => {
+            badge.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            badge.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Add ripple effect to buttons on click
+        const buttons = document.querySelectorAll('.cta-button, .social-icon');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Create ripple element
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    width: ${size}px;
+                    height: ${size}px;
+                    top: ${y}px;
+                    left: ${x}px;
+                    pointer-events: none;
+                `;
+                
+                this.appendChild(ripple);
+                
+                // Remove ripple after animation completes
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+        
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const footer = document.querySelector('footer');
+            const rate = scrolled * -0.5;
+            footer.style.backgroundPosition = `0px ${rate}px`;
+        });
+    });
+
+     // Animated counters for team stats
+    document.addEventListener('DOMContentLoaded', function() {
+        // Counter animation for team stats
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    const target = parseInt(element.getAttribute('data-target'));
+                    
+                    let start = 0;
+                    const duration = 1500; // 1.5 seconds
+                    const increment = target / (duration / 16);
+                    
+                    const updateCounter = () => {
+                        start += increment;
+                        if (start < target) {
+                            element.textContent = Math.floor(start);
+                            setTimeout(updateCounter, 16);
+                        } else {
+                            element.textContent = target;
+                        }
+                    };
+                    
+                    updateCounter();
+                    observer.unobserve(element);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        statNumbers.forEach(stat => observer.observe(stat));
+        
+        // Add hover effect to team members
+        const teamMembers = document.querySelectorAll('.team-member');
+        teamMembers.forEach(member => {
+            member.addEventListener('mouseenter', function() {
+                const badge = this.querySelector('.member-badge');
+                if (badge) {
+                    badge.style.animation = 'pulse 0.5s ease-in-out';
+                    setTimeout(() => {
+                        badge.style.animation = 'pulse 2s infinite';
+                    }, 500);
+                }
+            });
+        });
+        
+        // Add click effect to show more info
+        teamMembers.forEach(member => {
+            member.addEventListener('click', function() {
+                this.classList.toggle('expanded');
+            });
+        });
+        
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const teamSection = document.querySelector('.team-section');
+            const rate = scrolled * -0.1;
+            teamSection.style.backgroundPosition = `0px ${rate}px`;
+        });
+    });
+    </script>
+</body>
+</html>

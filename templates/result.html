@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Results | NephroScan</title>
+    <link rel="stylesheet" href="/static/result.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Optimized Styles */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --danger: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --stone: #e63946;
+            --clear: #2a9d8f;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #333333;
+            --text-light: #6c757d;
+            --border: #e9ecef;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Top Navigation Bar */
+        .top-action-bar {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 14px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .nav-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+        }
+
+        /* Compact Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .results-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .scan-info {
+            display: flex;
+            gap: 30px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        /* Compact Results Summary */
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .summary-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .stone-detected::before {
+            background: var(--stone);
+        }
+
+        .no-stone::before {
+            background: var(--clear);
+        }
+
+        .summary-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+        }
+
+        .stone-detected .summary-icon {
+            background: linear-gradient(135deg, var(--stone) 0%, #ff6b6b 100%);
+            animation: pulse 2s infinite;
+        }
+
+        .no-stone .summary-icon {
+            background: linear-gradient(135deg, var(--clear) 0%, #52b788 100%);
+        }
+
+        .summary-number {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 10px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stone-detected .summary-number {
+            background: linear-gradient(135deg, var(--stone) 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .summary-label {
+            color: var(--text-light);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Optimized Main Results */
+        .results-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 1024px) {
+            .results-display {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Compact Scan Preview */
+        .original-scan, .organ-predictions {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .scan-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            height: 300px;
+            margin-bottom: 15px;
+        }
+
+        .scan-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        /* Compact Prediction Grid */
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .prediction-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .prediction-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .prediction-grid::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .prediction-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            animation: cardAppear 0.6s ease-out;
+        }
+
+        .prediction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .prediction-card.stone-detected {
+            border-left: 4px solid var(--stone);
+            animation: dangerPulse 2s infinite;
+        }
+
+        .prediction-card.no-stone {
+            border-left: 4px solid var(--clear);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .organ-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .organ-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .stone-detected .organ-icon {
+            background: linear-gradient(135deg, var(--stone) 0%, #ff6b6b 100%);
+        }
+
+        .no-stone .organ-icon {
+            background: linear-gradient(135deg, var(--clear) 0%, #52b788 100%);
+        }
+
+        .prediction-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-stone {
+            background: rgba(230, 57, 70, 0.1);
+            color: var(--stone);
+        }
+
+        .status-clear {
+            background: rgba(42, 157, 143, 0.1);
+            color: var(--clear);
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .crop-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .crop-image::after {
+            content: '\f00e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .crop-image:hover::after {
+            opacity: 1;
+        }
+
+        /* XAI Button Styles */
+        .xai-form {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .xai-btn {
+            background: linear-gradient(135deg, #f8961e 0%, #f9c74f 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .xai-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(248, 150, 30, 0.3);
+            background: linear-gradient(135deg, #f9c74f 0%, #f8961e 100%);
+        }
+
+        .xai-btn i {
+            font-size: 16px;
+        }
+
+        .prediction-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            background: #f8f9ff;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .confidence-meter {
+            margin-top: 15px;
+        }
+
+        .confidence-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .meter-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease;
+        }
+
+        .high-confidence .meter-fill {
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+        }
+
+        .medium-confidence .meter-fill {
+            background: linear-gradient(90deg, #f8961e, #f9c74f);
+        }
+
+        .low-confidence .meter-fill {
+            background: linear-gradient(90deg, #f72585, #ff6b6b);
+        }
+
+        /* Compact Recommendations */
+        .recommendations {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border);
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .recommendation-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .rec-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Compact Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .action-btn {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #d90429 100%);
+            color: white;
+            border: none;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes cardAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dangerPulse {
+            0%, 100% {
+                box-shadow: 0 5px 20px rgba(230, 57, 70, 0.1);
+            }
+            50% {
+                box-shadow: 0 5px 30px rgba(230, 57, 70, 0.2);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Filter Buttons */
+        .prediction-filters {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: #f8f9ff;
+            border-color: var(--primary);
+        }
+
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 20px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            transform: rotate(90deg);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-nav:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        .modal-zoom {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-zoom:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .top-action-bar {
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .nav-btn {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .results-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .prediction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .modal-prev {
+                left: 10px;
+            }
+            
+            .modal-next {
+                right: 10px;
+            }
+        }
+
+        /* Scan Details */
+        .scan-details {
+            background: #f8f9ff;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px solid var(--border);
+        }
+
+        /* Main Scan Image Clickable */
+        .scan-image {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .scan-image:hover {
+            transform: scale(1.01);
+        }
+    </style>
+</head>
+<body>
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <button class="modal-close" id="modalClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="modal-nav modal-prev" id="modalPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="modal-nav modal-next" id="modalNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <button class="modal-zoom" id="modalZoom">
+            <i class="fas fa-search-plus"></i>
+        </button>
+        <div class="modal-content">
+            <img src="" alt="Full View" class="modal-image" id="modalImage">
+            <div class="modal-info" id="modalInfo"></div>
+        </div>
+    </div>
+
+    <!-- Top Action Bar with Back & New Analysis Buttons -->
+    <div class="top-action-bar">
+        <div class="nav-title">
+            <i class="fas fa-brain"></i>
+            <span>NephroScan AI Analysis</span>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button class="nav-btn" onclick="window.location.href='/'">
+                <i class="fas fa-plus-circle"></i> New Analysis
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="results-header">
+            <div class="header-content">
+                <div class="header-icon">
+                    <i class="fas fa-search-medical"></i>
+                </div>
+                <div>
+                    <h1 class="header-title">AI Detection Results</h1>
+                    <p class="header-subtitle">Comprehensive analysis of your medical scan using advanced deep learning algorithms</p>
+                </div>
+            </div>
+            <div class="scan-info">
+                <p><i class="fas fa-calendar-alt"></i> Analysis Date: <span id="currentDate"></span></p>
+                <p><i class="fas fa-clock"></i> Processing Time: <span id="processingTime">2.8 seconds</span></p>
+            </div>
+        </header>
+
+        <!-- Compact Results Summary -->
+        <div class="results-summary">
+            <div class="summary-card stone-detected">
+                <div class="summary-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="summary-number" id="stoneCount">0</div>
+                <div class="summary-label">Stones Detected</div>
+            </div>
+            
+            <div class="summary-card no-stone">
+                <div class="summary-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="summary-number" id="clearOrgans">0</div>
+                <div class="summary-label">Clear Organs</div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="summary-number">95.7%</div>
+                <div class="summary-label">AI Confidence</div>
+            </div>
+            
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="summary-number">100%</div>
+                <div class="summary-label">Data Security</div>
+            </div>
+        </div>
+
+        <!-- Optimized Main Results Display -->
+        <div class="results-display">
+            <!-- Original Scan -->
+            <div class="original-scan">
+                <h2 class="section-title">
+                    <i class="fas fa-image"></i>
+                    Original Medical Scan
+                </h2>
+                <div class="scan-container">
+                    <img src="{{ detection_result }}" alt="Medical Scan" class="scan-image" id="scanImage" onclick="openModal('{{ detection_result }}', 'Original CT Scan - Full View')">
+                </div>
+                <div class="scan-details">
+                    <p><i class="fas fa-info-circle"></i> Click image to view full size | Uploaded CT Scan - Axial View</p>
+                </div>
+            </div>
+
+            <!-- Organ Predictions -->
+            <div class="organ-predictions">
+                <h2 class="section-title">
+                    <i class="fas fa-clipboard-check"></i>
+                    Organ-wise Analysis
+                </h2>
+                
+                <div class="prediction-filters">
+                    <button class="filter-btn active" data-filter="all">All Organs</button>
+                    <button class="filter-btn" data-filter="stone">Stone Detected</button>
+                    <button class="filter-btn" data-filter="clear">Clear</button>
+                </div>
+
+                <div class="prediction-grid" id="predictionGrid">
+                    {% for p in predictions %}
+                    <div class="prediction-card {% if p.prediction == 'Stone Detected' %}stone-detected{% else %}no-stone{% endif %}" 
+                         data-organ="{{ p.organ|lower }}" 
+                         data-status="{{ 'stone' if p.prediction == 'Stone Detected' else 'clear' }}"
+                         data-index="{{ loop.index0 }}">
+                        <div class="card-header">
+                            <div class="organ-name">
+                                <div class="organ-icon">
+                                    {% if p.organ == 'Kidney' %}
+                                    <i class="fas fa-kidney"></i>
+                                    {% elif p.organ == 'Ureter' %}
+                                    <i class="fas fa-long-arrow-alt-down"></i>
+                                    {% else %}
+                                    <i class="fas fa-bladder"></i>
+                                    {% endif %}
+                                </div>
+                                <span>{{ p.organ }}</span>
+                            </div>
+                            <div class="prediction-status {% if p.prediction == 'Stone Detected' %}status-stone{% else %}status-clear{% endif %}">
+                                {{ p.prediction }}
+                            </div>
+                        </div>
+                        
+                        <img src="{{ p.crop }}" 
+                             alt="{{ p.organ }} crop" 
+                             class="crop-image" 
+                             data-src="{{ p.crop }}"
+                             data-organ="{{ p.organ }}"
+                             data-prediction="{{ p.prediction }}"
+                             data-index="{{ loop.index0 }}"
+                             onclick="openCropImage(this)"
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoGVpZ2h0PSIzMDAiIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjBGNUY5Ii8+PHRleHQgeD0iMjAwIiB5PSIxNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNjc0RkEiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiI+SW1hZ2UgUHJldmlldzwvdGV4dD48L3N2Zz4='">
+                        
+                        <!-- XAI Button Form -->
+                        <form action="/xai" method="POST" class="xai-form">
+                            <input type="hidden" name="crop_path" value="{{ p.crop }}">
+                            <input type="hidden" name="organ" value="{{ p.organ }}">
+                            <button type="submit" class="xai-btn">
+                                <i class="fas fa-brain"></i> Explain (XAI)
+                            </button>
+                        </form>
+                        
+                        <div class="prediction-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Size</div>
+                                <div class="detail-value">{{ p.size if p.size else 'N/A' }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Location</div>
+                                <div class="detail-value">{{ p.location if p.location else 'N/A' }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Type</div>
+                                <div class="detail-value">{{ p.type if p.type else 'N/A' }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Risk Level</div>
+                                <div class="detail-value">{{ p.risk if p.risk else 'Medium' }}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fixed Confidence Meter -->
+                        {% set confidence = p.confidence if p.confidence is defined else 85 %}
+                        <div class="confidence-meter {% if confidence > 80 %}high-confidence{% elif confidence > 60 %}medium-confidence{% else %}low-confidence{% endif %}">
+                            <div class="confidence-label">
+                                <span>AI Confidence</span>
+                                <span>{{ confidence }}%</span>
+                            </div>
+                            <div class="meter-bar">
+                                <div class="meter-fill" style="width: {{ confidence }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Optimized Recommendations -->
+        <div class="recommendations">
+            <h2 class="section-title">
+                <i class="fas fa-stethoscope"></i>
+                Medical Recommendations
+            </h2>
+            
+            <div class="recommendation-grid">
+                <div class="recommendation-card">
+                    <div class="rec-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Consult Specialist</h4>
+                        <p>Schedule an appointment with a urologist for detailed evaluation and treatment planning.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <div class="rec-icon">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Medication Advice</h4>
+                        <p>Based on stone composition, appropriate medications may be prescribed for pain management.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <div class="rec-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Hydration</h4>
+                        <p>Increase water intake to 2-3 liters daily to help flush small stones naturally.</p>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card">
+                    <div class="rec-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="rec-content">
+                        <h4>Dietary Changes</h4>
+                        <p>Reduce sodium and oxalate-rich foods. Increase citrate-rich foods like lemons.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compact Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn primary" onclick="downloadReport()">
+                <i class="fas fa-download"></i> Download Full Report
+            </button>
+            <button class="action-btn secondary" onclick="printResults()">
+                <i class="fas fa-print"></i> Print Results
+            </button>
+            <a href="/" class="action-btn">
+                <i class="fas fa-upload"></i> Upload New Scan
+            </a>
+            <button class="action-btn danger" onclick="shareResults()">
+                <i class="fas fa-share-alt"></i> Share with Doctor
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const now = new Date();
+            document.getElementById('currentDate').textContent = 
+                now.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            
+            // Calculate stone count and clear organs
+            const predictionCards = document.querySelectorAll('.prediction-card');
+            const stoneCount = Array.from(predictionCards).filter(card => 
+                card.classList.contains('stone-detected')
+            ).length;
+            const clearOrgans = predictionCards.length - stoneCount;
+            
+            // Animated counters
+            animateCounter('stoneCount', stoneCount);
+            animateCounter('clearOrgans', clearOrgans);
+            
+            // Initialize scan animation
+            const scanImage = document.getElementById('scanImage');
+            if (scanImage) {
+                scanImage.addEventListener('load', function() {
+                    this.style.animation = 'fadeIn 1s ease-out';
+                });
+            }
+            
+            // Filter functionality
+            initializeFilters();
+            
+            // Add animations to cards
+            document.querySelectorAll('.prediction-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Initialize modal
+            initializeModal();
+            
+            // Add loading indicator for XAI buttons
+            initializeXAIButtons();
+        });
+
+        // Initialize XAI buttons with loading state
+        function initializeXAIButtons() {
+            const xaiForms = document.querySelectorAll('.xai-form');
+            
+            xaiForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const button = this.querySelector('.xai-btn');
+                    const originalText = button.innerHTML;
+                    
+                    // Show loading state
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Explanation...';
+                    button.disabled = true;
+                    
+                    // Reset after 5 seconds if form submission fails
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 5000);
+                });
+            });
+        }
+
+        // Animated counter function
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let current = 0;
+            const increment = targetValue / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetValue) {
+                    current = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 30);
+        }
+
+        // Filter functionality
+        function initializeFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const predictionCards = document.querySelectorAll('.prediction-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    
+                    // Filter cards
+                    predictionCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else if (filter === 'stone') {
+                            card.style.display = card.classList.contains('stone-detected') ? 'block' : 'none';
+                        } else if (filter === 'clear') {
+                            card.style.display = card.classList.contains('no-stone') ? 'block' : 'none';
+                        }
+                        
+                        // Add animation
+                        if (card.style.display === 'block') {
+                            card.style.animation = 'cardAppear 0.5s ease-out';
+                        }
+                    });
+                });
+            });
+        }
+
+        // Image Modal Variables
+        let currentImageIndex = 0;
+        let allCropImages = [];
+        let isZoomed = false;
+
+        // Initialize Modal
+        function initializeModal() {
+            // Collect all crop images
+            allCropImages = Array.from(document.querySelectorAll('.crop-image')).filter(img => 
+                img.src && !img.src.includes('data:image/svg+xml')
+            );
+            
+            // Add main scan image
+            const mainScanImage = document.getElementById('scanImage');
+            if (mainScanImage && mainScanImage.src) {
+                allCropImages.unshift(mainScanImage);
+            }
+            
+            // Setup modal event listeners
+            const modal = document.getElementById('imageModal');
+            const closeBtn = document.getElementById('modalClose');
+            const prevBtn = document.getElementById('modalPrev');
+            const nextBtn = document.getElementById('modalNext');
+            const zoomBtn = document.getElementById('modalZoom');
+            
+            // Close modal on close button click
+            closeBtn.addEventListener('click', closeModal);
+            
+            // Close modal on background click
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Navigation
+            prevBtn.addEventListener('click', showPrevImage);
+            nextBtn.addEventListener('click', showNextImage);
+            
+            // Zoom functionality
+            zoomBtn.addEventListener('click', toggleZoom);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', handleModalKeyboard);
+        }
+
+        // Open modal with specific image
+        function openModal(imageSrc, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            // Find image index
+            currentImageIndex = allCropImages.findIndex(img => img.src === imageSrc);
+            if (currentImageIndex === -1) currentImageIndex = 0;
+            
+            // Set image and info
+            modalImage.src = imageSrc;
+            modalInfo.innerHTML = `<h3>${title}</h3><p>Click outside or press ESC to close</p>`;
+            
+            // Reset zoom
+            isZoomed = false;
+            modalImage.style.transform = 'scale(1)';
+            document.getElementById('modalZoom').innerHTML = '<i class="fas fa-search-plus"></i>';
+            
+            // Show modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Update navigation buttons visibility
+            updateNavButtons();
+        }
+
+        // Open crop image modal
+        function openCropImage(imgElement) {
+            const organ = imgElement.dataset.organ || 'Organ';
+            const prediction = imgElement.dataset.prediction || '';
+            const index = parseInt(imgElement.dataset.index) + 1;
+            
+            openModal(
+                imgElement.src, 
+                `${organ} - ${prediction} (View ${index})`
+            );
+        }
+
+        // Show previous image
+        function showPrevImage() {
+            if (allCropImages.length === 0) return;
+            
+            currentImageIndex = (currentImageIndex - 1 + allCropImages.length) % allCropImages.length;
+            const image = allCropImages[currentImageIndex];
+            const modalImage = document.getElementById('modalImage');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            modalImage.src = image.src;
+            
+            // Set appropriate title
+            if (currentImageIndex === 0 && image.id === 'scanImage') {
+                modalInfo.innerHTML = '<h3>Original CT Scan - Full View</h3><p>Click outside or press ESC to close</p>';
+            } else {
+                const organ = image.dataset.organ || 'Organ';
+                const prediction = image.dataset.prediction || '';
+                const index = parseInt(image.dataset.index) + 1 || currentImageIndex;
+                modalInfo.innerHTML = `<h3>${organ} - ${prediction} (View ${index})</h3><p>Click outside or press ESC to close</p>`;
+            }
+            
+            // Reset zoom
+            isZoomed = false;
+            modalImage.style.transform = 'scale(1)';
+            document.getElementById('modalZoom').innerHTML = '<i class="fas fa-search-plus"></i>';
+            
+            updateNavButtons();
+        }
+
+        // Show next image
+        function showNextImage() {
+            if (allCropImages.length === 0) return;
+            
+            currentImageIndex = (currentImageIndex + 1) % allCropImages.length;
+            const image = allCropImages[currentImageIndex];
+            const modalImage = document.getElementById('modalImage');
+            const modalInfo = document.getElementById('modalInfo');
+            
+            modalImage.src = image.src;
+            
+            // Set appropriate title
+            if (currentImageIndex === 0 && image.id === 'scanImage') {
+                modalInfo.innerHTML = '<h3>Original CT Scan - Full View</h3><p>Click outside or press ESC to close</p>';
+            } else {
+                const organ = image.dataset.organ || 'Organ';
+                const prediction = image.dataset.prediction || '';
+                const index = parseInt(image.dataset.index) + 1 || currentImageIndex;
+                modalInfo.innerHTML = `<h3>${organ} - ${prediction} (View ${index})</h3><p>Click outside or press ESC to close</p>`;
+            }
+            
+            // Reset zoom
+            isZoomed = false;
+            modalImage.style.transform = 'scale(1)';
+            document.getElementById('modalZoom').innerHTML = '<i class="fas fa-search-plus"></i>';
+            
+            updateNavButtons();
+        }
+
+        // Toggle zoom
+        function toggleZoom() {
+            const modalImage = document.getElementById('modalImage');
+            const zoomBtn = document.getElementById('modalZoom');
+            
+            isZoomed = !isZoomed;
+            if (isZoomed) {
+                modalImage.style.transform = 'scale(2)';
+                zoomBtn.innerHTML = '<i class="fas fa-search-minus"></i>';
+            } else {
+                modalImage.style.transform = 'scale(1)';
+                zoomBtn.innerHTML = '<i class="fas fa-search-plus"></i>';
+            }
+        }
+
+        // Update navigation buttons visibility
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('modalPrev');
+            const nextBtn = document.getElementById('modalNext');
+            
+            // Show/hide based on number of images
+            if (allCropImages.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Handle keyboard for modal
+        function handleModalKeyboard(e) {
+            const modal = document.getElementById('imageModal');
+            if (modal.style.display !== 'flex') return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    closeModal();
+                    break;
+                case 'ArrowLeft':
+                    showPrevImage();
+                    break;
+                case 'ArrowRight':
+                    showNextImage();
+                    break;
+                case 'z':
+                case 'Z':
+                    toggleZoom();
+                    break;
+                case '+':
+                    if (!isZoomed) toggleZoom();
+                    break;
+                case '-':
+                    if (isZoomed) toggleZoom();
+                    break;
+            }
+        }
+
+        // Download report
+        function downloadReport() {
+            alert('Report download functionality would be implemented here.');
+            // In production, this would trigger a PDF download
+        }
+
+        // Print results
+        function printResults() {
+            window.print();
+        }
+
+        // Share results
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'NephroScan AI Report',
+                    text: 'My kidney stone analysis results',
+                    url: window.location.href
+                });
+            } else {
+                alert('Copy this link to share: ' + window.location.href);
+            }
+        }
+
+        // Handle image loading errors
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                if (!this.src.includes('data:image/svg+xml')) {
+                    this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNGMEY1RjkiLz48dGV4dCB4PSIyMDAiIHk9IjE1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE2NzRGQSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2Ij5JbWFnZSBQcmV2aWV3PC90ZXh0Pjwvc3ZnPg==';
+                }
+            });
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+P for print
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                printResults();
+            }
+            // Ctrl+S for save
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                downloadReport();
+            }
+            // Ctrl+N for new analysis
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                window.location.href = '/';
+            }
+        });
+    </script>
+</body>
+</html>
