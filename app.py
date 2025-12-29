@@ -72,3 +72,12 @@ def xai():
     )
 if __name__ == "__main__":
     app.run(debug=True)
+    
+    
+    
+#     Sajjad Mojumder, [12/8/2025 5:29 AM]
+# !pip install numpy==1.26.4
+# !pip install ultralytics==8.1.0
+
+# Sajjad Mojumder, [12/8/2025 5:31 AM]
+# . "E:\Yolo train\.venv\Scripts\Activate.ps1"
