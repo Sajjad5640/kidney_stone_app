@@ -120,9 +120,9 @@ def ResNet18_Model(num_classes=2):
 # ==================================================================
 
 # --- Replace with your paths ---
-bladder_model_path = r"E:\Yolo train\Aug Bladder Crop\best_efficientnetb0_binary_BladderCrop_CBAM aug.pth"
-ureter_model_path  = r"E:\Yolo train\Aug ureter Crop\best_mobilenetv2_binary ureter Crop_1 aug.pth"
-kidney_model_path  = r"E:\Yolo train\AUg Kidney Crop\best_resnet18_binary_kidney_crop aug.pth"
+bladder_model_path = r"best_efficientnetb0_binary_BladderCrop_CBAM aug.pth"
+ureter_model_path  = r"best_mobilenetv2_binary ureter Crop_1 aug.pth"
+kidney_model_path  = r"best_resnet18_binary_kidney_crop aug.pth"
 
 # Load Bladder Model (EffNetB0 + CBAM)
 bladder_model = EfficientNetB0_CBAM(pretrained=False).to(DEVICE)

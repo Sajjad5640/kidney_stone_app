@@ -4,7 +4,7 @@ import numpy as np
 from ultralytics import YOLO
 
 # Load YOLO model once
-model = YOLO(r"E:\Yolo train\yolov8s\runs\detect\train4\weights\best.pt")
+model = YOLO(r"best.pt")
 
 # Class names (match your training)
 CLASS_NAMES = {
