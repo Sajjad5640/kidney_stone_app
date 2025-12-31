@@ -1,8 +1,13 @@
 flask
 gunicorn
+
 numpy==1.26.4
-ultralytics==8.1.0
 opencv-python-headless
-torch==2.1.2
-torchvision==0.16.2
 pillow
+
+torch
+torchvision
+ultralytics==8.1.0
+
+scikit-learn
+matplotlib
