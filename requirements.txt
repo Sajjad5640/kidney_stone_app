@@ -1,13 +1,12 @@
 flask
 gunicorn
-
 numpy==1.26.4
 opencv-python-headless
 pillow
-
-torch
-torchvision
-ultralytics==8.1.0
-
 scikit-learn
 matplotlib
+
+# 🔥 CPU-only PyTorch
+torch==2.1.2+cpu
+torchvision==0.16.2+cpu
+ultralytics==8.1.0

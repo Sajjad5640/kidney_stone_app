@@ -5,8 +5,11 @@ from utils.classifier import classify_image
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = "static/uploads"
-RESULT_FOLDER = "static/results"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
+RESULT_FOLDER = os.path.join(BASE_DIR, "static", "results")
+
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
 
@@ -23,14 +26,13 @@ def predict():
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
 
-    # Run YOLO detection + get crops
     detection_result, crops = detect_and_crop(filepath, RESULT_FOLDER)
 
     final_predictions = []
 
     for organ_name, crop_list in crops.items():
-        for crop_info in crop_list:     # crop_info is a dict
-            crop_path = crop_info["crop"]   # or "upscaled"
+        for crop_info in crop_list:
+            crop_path = crop_info["crop"]
 
             pred = classify_image(crop_path, organ_name)
 
@@ -42,7 +44,6 @@ def predict():
                 "bbox": crop_info["bbox"]
             })
 
-
     return render_template(
         "result.html",
         original_image=filepath,
@@ -50,15 +51,11 @@ def predict():
         predictions=final_predictions
     )
 
-# -------------------------------------------------------------
-# 🔥 XAI ROUTE → This is where the Explain button will go
-# -------------------------------------------------------------
 @app.route("/xai", methods=["POST"])
 def xai():
     crop_path = request.form["crop_path"]
     organ = request.form["organ"]
 
-    # generate XAI
     pred_label, xai_image = classify_image(
         crop_path, organ, generate_xai_flag=True
     )
@@ -70,9 +67,11 @@ def xai():
         xai_image=xai_image,
         prediction=pred_label
     )
+
 if __name__ == "__main__":
-    app.run(debug=True)
-    
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
+
     
     
 #     Sajjad Mojumder, [12/8/2025 5:29 AM]
